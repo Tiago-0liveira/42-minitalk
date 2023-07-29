@@ -1,4 +1,0 @@
-[submodule "42-libft"]
-	path = libft
-	url = https://github.com/Tiago-0liveira/42-libft
-	branch = master
