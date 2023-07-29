@@ -6,11 +6,10 @@
 /*   By: tiagoliv <tiagoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 20:27:36 by tiagoliv          #+#    #+#             */
-/*   Updated: 2023/07/29 01:34:11 by tiagoliv         ###   ########.fr       */
+/*   Updated: 2023/07/29 02:00:41 by tiagoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// import the file client.h to here
 #include "../include/client.h"
 #include "../include/common.h"
 
