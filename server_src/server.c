@@ -6,7 +6,7 @@
 /*   By: tiagoliv <tiagoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 20:26:51 by tiagoliv          #+#    #+#             */
-/*   Updated: 2023/07/29 15:55:53 by tiagoliv         ###   ########.fr       */
+/*   Updated: 2023/10/20 00:31:19 by tiagoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,12 @@ static void	sig_action(int sig, siginfo_t *info, void *context)
 
 	(void)context;
 	if (!client_pid)
+	{
 		client_pid = info->si_pid;
+		c = 0;
+		i = 0;
+		ft_printf("Client PID: %d\n", client_pid);
+	}
 	c |= (sig == SIGUSR2);
 	if (++i == 8)
 	{
@@ -46,8 +51,9 @@ int	main(void)
 
 	process_id = getpid();
 	ft_printf("Server PID: %d\n", process_id);
+	sigemptyset(&s_sigaction.sa_mask);
 	s_sigaction.sa_flags = SA_SIGINFO;
-	s_sigaction.sa_sigaction = sig_action;
+	s_sigaction.sa_sigaction = &sig_action;
 	sigaction(SIGUSR1, &s_sigaction, NULL);
 	sigaction(SIGUSR2, &s_sigaction, NULL);
 	while (1)
