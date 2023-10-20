@@ -6,7 +6,7 @@
 #    By: tiagoliv <tiagoliv@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/28 20:21:53 by tiagoliv          #+#    #+#              #
-#    Updated: 2023/10/19 23:38:56 by tiagoliv         ###   ########.fr        #
+#    Updated: 2023/10/20 15:55:30 by tiagoliv         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,22 +25,28 @@ CLIENT_FILES = client.c
 SERVER_DIR = server_src/
 SERVER_FILES = server.c
 
+COMMON_DIR = utils/
+COMMON_FILES = utils.c
+
 CLIENT_SOURCES = $(addprefix $(CLIENT_DIR), $(CLIENT_FILES))
 CLIENT_OBJS = $(CLIENT_SOURCES:$(CLIENT_DIR)%.c=$(OBJ_FOLDER)%.o)
 
 SERVER_SOURCES = $(addprefix $(SERVER_DIR), $(SERVER_FILES))
 SERVER_OBJS = $(SERVER_SOURCES:$(SERVER_DIR)%.c=$(OBJ_FOLDER)%.o)
 
+COMMON_SOURCES = $(addprefix $(COMMON_DIR), $(COMMON_FILES))
+COMMON_OBJS = $(COMMON_SOURCES:$(COMMON_DIR)%.c=$(OBJ_FOLDER)%.o)
+
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
 all: $(SERVER) $(CLIENT)
 
-$(SERVER): $(OBJ_FOLDER) $(LIBFT) $(SERVER_OBJS)
-	$(CC) $(CFLAGS) $(SERVER_OBJS) $(LIBFT_DIR)$(LIBFT) -o $(SERVER_OUTPUT)
+$(SERVER): $(OBJ_FOLDER) $(LIBFT) $(SERVER_OBJS) $(COMMON_OBJS)
+	$(CC) $(CFLAGS) $(SERVER_OBJS) $(COMMON_OBJS) $(LIBFT_DIR)$(LIBFT) -o $(SERVER_OUTPUT)
 
-$(CLIENT): $(OBJ_FOLDER) $(LIBFT) $(CLIENT_OBJS)
-	$(CC) $(CFLAGS) $(CLIENT_OBJS) $(LIBFT_DIR)$(LIBFT) -o $(CLIENT_OUTPUT)
+$(CLIENT): $(OBJ_FOLDER) $(LIBFT) $(CLIENT_OBJS)  $(COMMON_OBJS)
+	$(CC) $(CFLAGS) $(CLIENT_OBJS) $(COMMON_OBJS) $(LIBFT_DIR)$(LIBFT) -o $(CLIENT_OUTPUT)
 
 $(LIBFT):
 	make -C $(LIBFT_DIR)
@@ -52,6 +58,9 @@ $(OBJ_FOLDER)%.o: $(CLIENT_DIR)%.c
 	$(CC) -c $(CFLAGS) $< -o $@
 
 $(OBJ_FOLDER)%.o: $(SERVER_DIR)%.c
+	$(CC) -c $(CFLAGS) $< -o $@
+
+$(OBJ_FOLDER)%.o: $(COMMON_DIR)%.c
 	$(CC) -c $(CFLAGS) $< -o $@
 
 clean:

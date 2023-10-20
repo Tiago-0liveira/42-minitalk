@@ -1,23 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.h                                           :+:      :+:    :+:   */
+/*   common.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tiagoliv <tiagoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/28 20:24:19 by tiagoliv          #+#    #+#             */
-/*   Updated: 2023/10/20 15:46:10 by tiagoliv         ###   ########.fr       */
+/*   Created: 2023/10/20 15:43:46 by tiagoliv          #+#    #+#             */
+/*   Updated: 2023/10/20 15:45:52 by tiagoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CLIENT_H
-# define CLIENT_H
+#ifndef COMMON_H
+# define COMMON_H
 
-# include "../include/common.h"
+# include "../libft/libft.h"
+# include <signal.h>
 
-# define PROGRAM_USAGE "Usage: ./client [server-pid] [message]\n"
-
-static void	action(int sig);
-static void	send_message_to_pid(int pid, char *str);
+char	*ft_strjoinchar(char const *s1, char const c);
 
 #endif

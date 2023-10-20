@@ -1,23 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.h                                           :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tiagoliv <tiagoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/28 20:24:19 by tiagoliv          #+#    #+#             */
-/*   Updated: 2023/10/20 15:46:10 by tiagoliv         ###   ########.fr       */
+/*   Created: 2023/10/20 15:41:19 by tiagoliv          #+#    #+#             */
+/*   Updated: 2023/10/20 16:18:38 by tiagoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CLIENT_H
-# define CLIENT_H
+#include "../include/common.h"
 
-# include "../include/common.h"
+char	*ft_strjoinchar(char const *s1, char const c)
+{
+	int		s1l;
+	char	*d;
 
-# define PROGRAM_USAGE "Usage: ./client [server-pid] [message]\n"
-
-static void	action(int sig);
-static void	send_message_to_pid(int pid, char *str);
-
-#endif
+	s1l = ft_strlen(s1);
+	d = malloc(s1l + 2);
+	if (d == NULL)
+		return (NULL);
+	ft_strcpy(d, s1);
+	d[s1l] = c;
+    d[s1l + 1] = '\0';
+	return (d);
+}   

@@ -6,7 +6,7 @@
 /*   By: tiagoliv <tiagoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 20:27:36 by tiagoliv          #+#    #+#             */
-/*   Updated: 2023/07/29 15:55:36 by tiagoliv         ###   ########.fr       */
+/*   Updated: 2023/10/20 16:38:42 by tiagoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,14 @@ static void	send_message_to_pid(int pid, char *str)
 				kill(pid, SIGUSR2);
 			else
 				kill(pid, SIGUSR1);
-			usleep(100);
+			usleep(500);
 		}
 	}
 	i = 8;
 	while (i--)
 	{
 		kill(pid, SIGUSR1);
-		usleep(100);
+		usleep(500);
 	}
 }
 
@@ -70,7 +70,7 @@ int	main(int argc, char *argv[])
 	ft_printf("Message size: %d|%d bytes\n", ft_strlen(message), \
 	ft_strlen(message) * 8);
 	send_message_to_pid(server_pid, message);
-	while (1)
-		pause();
+	/* while (1)
+		pause(); */
 	return (0);
 }
