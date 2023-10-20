@@ -6,7 +6,7 @@
 #    By: tiagoliv <tiagoliv@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/28 20:21:53 by tiagoliv          #+#    #+#              #
-#    Updated: 2023/07/29 15:48:03 by tiagoliv         ###   ########.fr        #
+#    Updated: 2023/10/19 23:38:56 by tiagoliv         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ CLIENT_OBJS = $(CLIENT_SOURCES:$(CLIENT_DIR)%.c=$(OBJ_FOLDER)%.o)
 SERVER_SOURCES = $(addprefix $(SERVER_DIR), $(SERVER_FILES))
 SERVER_OBJS = $(SERVER_SOURCES:$(SERVER_DIR)%.c=$(OBJ_FOLDER)%.o)
 
-CC = gcc
+CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
 all: $(SERVER) $(CLIENT)
@@ -64,4 +64,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all
