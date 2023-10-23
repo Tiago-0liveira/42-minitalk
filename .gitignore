@@ -1,5 +1,5 @@
 *.o*
 obj/
-.vscode
 client
 server
+.idea

@@ -6,7 +6,7 @@
 /*   By: tiagoliv <tiagoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 20:27:36 by tiagoliv          #+#    #+#             */
-/*   Updated: 2023/10/20 16:38:42 by tiagoliv         ###   ########.fr       */
+/*   Updated: 2023/10/22 15:52:10 by tiagoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,14 @@ static void	send_message_to_pid(int pid, char *str)
 				kill(pid, SIGUSR2);
 			else
 				kill(pid, SIGUSR1);
-			usleep(500);
+			usleep(DELAY_USLEEP);
 		}
 	}
 	i = 8;
 	while (i--)
 	{
 		kill(pid, SIGUSR1);
-		usleep(500);
+		usleep(DELAY_USLEEP);
 	}
 }
 

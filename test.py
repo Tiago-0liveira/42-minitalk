@@ -1,8 +1,20 @@
+#!/usr/bin/env python3
 import random, string, subprocess, sys, time
 
+DEFAULT_MIN_LENGTH = 10
+DEFAULT_MAX_LENGTH = 50
+if len(sys.argv) == 5:
+    min_len = int(sys.argv[3])
+    max_len = int(sys.argv[4])
+else:
+    min_len = DEFAULT_MIN_LENGTH
+    max_len = DEFAULT_MAX_LENGTH
 bytes = 0
+if (len(sys.argv) < 3):
+	print("Usage: python3 test.py <number of requests> <server address> <?min length> <?max length>")
+	exit(1)
 for _ in range(int(sys.argv[1])):
-	random_string = ''.join(random.choices(string.ascii_letters + string.digits, k=random.randint(*map(int, sys.argv[3:5]))))
+	random_string = ''.join(random.choices(string.ascii_letters + string.digits, k=random.randint(min_len, max_len)))
 	subprocess.call(["./client", sys.argv[2], random_string])
 	bytes += len(random_string) * 8
 	print(f"bytes: {bytes}")

@@ -6,7 +6,7 @@
 #    By: tiagoliv <tiagoliv@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/28 20:21:53 by tiagoliv          #+#    #+#              #
-#    Updated: 2023/10/20 15:55:30 by tiagoliv         ###   ########.fr        #
+#    Updated: 2023/10/22 17:15:47 by tiagoliv         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ COMMON_SOURCES = $(addprefix $(COMMON_DIR), $(COMMON_FILES))
 COMMON_OBJS = $(COMMON_SOURCES:$(COMMON_DIR)%.c=$(OBJ_FOLDER)%.o)
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 
 all: $(SERVER) $(CLIENT)
 
