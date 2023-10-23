@@ -6,7 +6,7 @@
 /*   By: tiagoliv <tiagoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 20:27:36 by tiagoliv          #+#    #+#             */
-/*   Updated: 2023/10/23 14:58:23 by tiagoliv         ###   ########.fr       */
+/*   Updated: 2023/10/23 16:57:14 by tiagoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ int	main(int argc, char *argv[])
 	sigaction(SIGINT, &s_sigaction, NULL);
 	ft_printf("Sending message to PID %d\n", server_pid);
 	ft_printf("Message: %s\n", message);
-	ft_printf("Message size: %d|%d bytes\n", ft_strlen(message), ft_strlen(message) * 8);
+	ft_printf("Message size: %d|%d bytes\n", ft_strlen(message), \
+		ft_strlen(message) * 8);
 	send_message_to_pid(server_pid, message);
 	while (1)
 		pause();
