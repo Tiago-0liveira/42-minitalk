@@ -6,26 +6,26 @@
 /*   By: tiagoliv <tiagoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 20:27:36 by tiagoliv          #+#    #+#             */
-/*   Updated: 2023/10/22 15:52:10 by tiagoliv         ###   ########.fr       */
+/*   Updated: 2023/10/23 14:58:23 by tiagoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/client.h"
 
-static void	action(int sig)
+void	action(int sig, siginfo_t *info, void *context)
 {
-	static int	received = 0;
-
-	if (sig == SIGUSR1)
-		++received;
-	else
+	(void)info;
+	(void)context;
+	if (sig == SIGUSR2)
 	{
-		ft_printf("%d successfully sent characters\n", received);
-		exit(0);
+		ft_printf("  Message sent successfully.\n");
+		exit(EXIT_FAILURE);
 	}
+	else if (sig == SIGINT)
+		exit(EXIT_SUCCESS);
 }
 
-static void	send_message_to_pid(int pid, char *str)
+void	send_message_to_pid(int pid, char *str)
 {
 	int		i;
 	char	c;
@@ -53,8 +53,9 @@ static void	send_message_to_pid(int pid, char *str)
 
 int	main(int argc, char *argv[])
 {
-	int		server_pid;
-	char	*message;
+	struct sigaction	s_sigaction;
+	int					server_pid;
+	char				*message;
 
 	if (argc != 3)
 	{
@@ -63,14 +64,17 @@ int	main(int argc, char *argv[])
 	}
 	server_pid = ft_atoi(argv[1]);
 	message = argv[2];
-	signal(SIGUSR1, action);
-	signal(SIGUSR2, action);
+	sigemptyset(&s_sigaction.sa_mask);
+	s_sigaction.sa_flags = SA_SIGINFO;
+	s_sigaction.sa_sigaction = &action;
+	sigaction(SIGUSR1, &s_sigaction, NULL);
+	sigaction(SIGUSR2, &s_sigaction, NULL);
+	sigaction(SIGINT, &s_sigaction, NULL);
 	ft_printf("Sending message to PID %d\n", server_pid);
 	ft_printf("Message: %s\n", message);
-	ft_printf("Message size: %d|%d bytes\n", ft_strlen(message), \
-	ft_strlen(message) * 8);
+	ft_printf("Message size: %d|%d bytes\n", ft_strlen(message), ft_strlen(message) * 8);
 	send_message_to_pid(server_pid, message);
-	/* while (1)
-		pause(); */
+	while (1)
+		pause();
 	return (0);
 }

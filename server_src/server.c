@@ -6,7 +6,7 @@
 /*   By: tiagoliv <tiagoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 20:26:51 by tiagoliv          #+#    #+#             */
-/*   Updated: 2023/10/23 01:10:47 by tiagoliv         ###   ########.fr       */
+/*   Updated: 2023/10/23 14:15:25 by tiagoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,8 @@ void	sig_handler(int sig, siginfo_t *info, void *context)
 	t_vars	*vars;
 	char	ch;
 
-	(void)info;
 	(void)context;
-	vars = get_vars();
-	vars->bits_buffer[vars->buffer_index++] = get_bit(sig);
-	vars->bits_n++;
+	vars = check_bit(sig, info);
 	if (vars->buffer_index == 8)
 	{
 		ch = get_char_from_bits_array(vars->bits_buffer);
@@ -30,6 +27,7 @@ void	sig_handler(int sig, siginfo_t *info, void *context)
 			vars->is_initialized = 0;
 			ft_printf("message: %s\n Closed the client.\n Received %d \
 chars | %l bytes\n", vars->msg->str, (vars->bits_n - 8) / 8, vars->bits_n - 8);
+			kill(vars->c_pid, SIGUSR2);
 			free(vars->msg->str);
 			ft_bzero(vars->bits_buffer, 8);
 		}
@@ -42,19 +40,17 @@ chars | %l bytes\n", vars->msg->str, (vars->bits_n - 8) / 8, vars->bits_n - 8);
 	}
 }
 
-char	get_char_from_bits_array(int *bits_arr)
+int	get_bit(int sig)
 {
-	unsigned char	c;
-	int				index;
-
-	c = 0;
-	index = 0;
-	while (index < 8)
-	{
-		c = (c << 1) | bits_arr[index];
-		index++;
-	}
-	return (c);
+	if (sig == SIGUSR1)
+		return (0);
+	else if (sig == SIGUSR2)
+		return (1);
+	else if (sig == SIGINT)
+		kill_process();
+	else
+		kill_process();
+	return (EXIT_FAILURE);
 }
 
 void	kill_process(void)
@@ -71,19 +67,6 @@ void	kill_process(void)
 	exit(EXIT_SUCCESS);
 }
 
-int	get_bit(int sig)
-{
-	if (sig == SIGUSR1)
-		return (0);
-	else if (sig == SIGUSR2)
-		return (1);
-	else if (sig == SIGINT)
-		kill_process();
-	else
-		kill_process();
-	return (EXIT_FAILURE);
-}
-
 t_vars	*get_vars(void)
 {
 	static t_vars	vars;
@@ -92,7 +75,6 @@ t_vars	*get_vars(void)
 	{
 		vars.is_initialized = 1;
 		vars.c_pid = 0;
-		vars.c_pid = getpid();
 		vars.bits_n = 0;
 		ft_bzero(vars.bits_buffer, 8);
 		vars.buffer_index = 0;
@@ -103,37 +85,6 @@ t_vars	*get_vars(void)
 	return (&vars);
 }
 
-//# define TEST
-
-# ifdef TEST
-int main(void)
-{
-	//int t[8] = {0,1,1,0,0,0,0,1};
-	t_dyn_str *ds;
-	ds = dyn_str_init();
-	if (!ds)
-		return (EXIT_FAILURE);
-	for (int i = 0; i < 50; i++)
-	{
-		dyn_str_append_character(ds, 'A'+i);
-	}
-	
-	ft_printf("%s\n", ds->str);
-	free(ds->str);
-	free(ds);
-	/* char *sd;
-	sd = malloc(2);
-	if (!sd)
-		return (EXIT_FAILURE);
-	
-	ft_strcpy(sd, "s");
-	ft_printf("%s\n", sd);
-	sd = ft_strjoinchar(sd, 'd');
-	ft_printf("%s|\n", sd); */
-	return (0);
-}
-# endif
-# ifndef TEST
 int	main(void)
 {
 	int					process_id;
@@ -151,4 +102,3 @@ int	main(void)
 		pause();
 	return (0);
 }
-#endif

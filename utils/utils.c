@@ -6,7 +6,7 @@
 /*   By: tiagoliv <tiagoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 15:41:19 by tiagoliv          #+#    #+#             */
-/*   Updated: 2023/10/23 00:51:30 by tiagoliv         ###   ########.fr       */
+/*   Updated: 2023/10/23 14:13:09 by tiagoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,19 @@ t_dyn_str	*dyn_str_init(void)
 	str->str = NULL;
 	str->index = 0;
 	return (str);
+}
+
+char	get_char_from_bits_array(int *bits_arr)
+{
+	unsigned char	c;
+	int				index;
+
+	c = 0;
+	index = 0;
+	while (index < 8)
+	{
+		c = (c << 1) | bits_arr[index];
+		index++;
+	}
+	return (c);
 }

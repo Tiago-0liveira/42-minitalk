@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.h                                           :+:      :+:    :+:   */
+/*   server_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tiagoliv <tiagoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/28 20:24:19 by tiagoliv          #+#    #+#             */
-/*   Updated: 2023/10/23 14:09:47 by tiagoliv         ###   ########.fr       */
+/*   Created: 2023/10/23 14:14:51 by tiagoliv          #+#    #+#             */
+/*   Updated: 2023/10/23 14:15:21 by tiagoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CLIENT_H
-# define CLIENT_H
+#include "../include/server.h"
 
-# include "../include/common.h"
+t_vars	*check_bit(int sig, siginfo_t *info)
+{
+	t_vars	*vars;
 
-# define PROGRAM_USAGE "Usage: ./client [server-pid] [message]\n"
-# define DELAY_USLEEP 300
-
-void	action(int sig, siginfo_t *info, void *context);
-void	send_message_to_pid(int pid, char *str);
-
-#endif
+	vars = get_vars();
+	vars->bits_buffer[vars->buffer_index++] = get_bit(sig);
+	if (!vars->c_pid)
+		vars->c_pid = info->si_pid;
+	vars->bits_n++;
+	return (vars);
+}

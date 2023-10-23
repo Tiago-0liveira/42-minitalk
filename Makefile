@@ -6,7 +6,7 @@
 #    By: tiagoliv <tiagoliv@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/28 20:21:53 by tiagoliv          #+#    #+#              #
-#    Updated: 2023/10/22 17:15:47 by tiagoliv         ###   ########.fr        #
+#    Updated: 2023/10/23 14:16:08 by tiagoliv         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ CLIENT_DIR = client_src/
 CLIENT_FILES = client.c
 
 SERVER_DIR = server_src/
-SERVER_FILES = server.c
+SERVER_FILES = server.c server_utils.c
 
 COMMON_DIR = utils/
 COMMON_FILES = utils.c
