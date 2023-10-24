@@ -6,7 +6,7 @@
 /*   By: tiagoliv <tiagoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 20:26:51 by tiagoliv          #+#    #+#             */
-/*   Updated: 2023/10/24 15:41:22 by tiagoliv         ###   ########.fr       */
+/*   Updated: 2023/10/24 18:52:17 by tiagoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,12 @@ t_vars	*get_vars(void)
 		vars.bits_n = 0;
 		ft_bzero(vars.bits_buffer, 8);
 		vars.buffer_index = 0;
+		if (vars.msg)
+		{
+			if (vars.msg->str)
+				free(vars.msg->str);
+			free(vars.msg);
+		}
 		vars.msg = NULL;
 		vars.size.int_size = (size_t) sizeof(int) * 8;
 		ft_bzero(vars.size.buffer, vars.size.int_size);

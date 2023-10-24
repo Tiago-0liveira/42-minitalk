@@ -6,7 +6,7 @@
 #    By: tiagoliv <tiagoliv@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/28 20:21:53 by tiagoliv          #+#    #+#              #
-#    Updated: 2023/10/24 12:13:34 by tiagoliv         ###   ########.fr        #
+#    Updated: 2023/10/24 18:52:01 by tiagoliv         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,22 +14,20 @@ CLIENT = client
 SERVER = server
 LIBFT = libft.a
 LIBFT_DIR = libft/
+LIBFT_FILE = $(LIBFT_DIR)$(LIBFT)
 OBJ_FOLDER = obj/
 
 SERVER_OUTPUT = server
 CLIENT_OUTPUT = client
 
 CLIENT_DIR = client_src/
-CLIENT_FILES = client.c
 
 SERVER_DIR = server_src/
-SERVER_FILES = server.c server_utils.c
+SERVER_FILES = server_utils.c
 
 COMMON_DIR = utils/
 COMMON_FILES = utils.c
 
-CLIENT_SOURCES = $(addprefix $(CLIENT_DIR), $(CLIENT_FILES))
-CLIENT_OBJS = $(CLIENT_SOURCES:$(CLIENT_DIR)%.c=$(OBJ_FOLDER)%.o)
 
 SERVER_SOURCES = $(addprefix $(SERVER_DIR), $(SERVER_FILES))
 SERVER_OBJS = $(SERVER_SOURCES:$(SERVER_DIR)%.c=$(OBJ_FOLDER)%.o)
@@ -37,32 +35,38 @@ SERVER_OBJS = $(SERVER_SOURCES:$(SERVER_DIR)%.c=$(OBJ_FOLDER)%.o)
 COMMON_SOURCES = $(addprefix $(COMMON_DIR), $(COMMON_FILES))
 COMMON_OBJS = $(COMMON_SOURCES:$(COMMON_DIR)%.c=$(OBJ_FOLDER)%.o)
 
+OBJS = 	$(addprefix $(OBJ_FOLDER), $(SERVER_SOURCES:%.c=%.o))\
+		$(addprefix $(OBJ_FOLDER), $(COMMON_SOURCES:%.c=%.o))
+
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 
 all: $(SERVER) $(CLIENT)
 
-$(SERVER): $(OBJ_FOLDER) $(LIBFT) $(SERVER_OBJS) $(COMMON_OBJS)
-	$(CC) $(CFLAGS) $(SERVER_OBJS) $(COMMON_OBJS) $(LIBFT_DIR)$(LIBFT) -o $(SERVER_OUTPUT)
+$(SERVER): $(LIBFT_FILE) $(SERVER_OBJS) $(COMMON_OBJS)
+	$(CC) $(CFLAGS) $(SERVER_OBJS) $(COMMON_OBJS) $(SERVER_DIR)$(SERVER).c $(LIBFT_FILE) -o $(SERVER_OUTPUT)
 
-$(CLIENT): $(OBJ_FOLDER) $(LIBFT) $(CLIENT_OBJS)  $(COMMON_OBJS)
-	$(CC) $(CFLAGS) $(CLIENT_OBJS) $(COMMON_OBJS) $(LIBFT_DIR)$(LIBFT) -o $(CLIENT_OUTPUT)
+$(CLIENT): $(LIBFT_FILE) $(CLIENT_OBJS) $(COMMON_OBJS)
+	$(CC) $(CFLAGS) $(CLIENT_OBJS) $(COMMON_OBJS) $(CLIENT_DIR)$(CLIENT).c $(LIBFT_FILE) -o $(CLIENT_OUTPUT)
 
-$(LIBFT):
+$(LIBFT_FILE):
 	make -C $(LIBFT_DIR)
 
 $(OBJ_FOLDER):
 	mkdir -p $(OBJ_FOLDER)
 
-$(OBJ_FOLDER)%.o: $(CLIENT_DIR)%.c
+$(COMMON_OBJS): $(COMMON_SOURCES)
+	mkdir -p $(dir $@)
 	$(CC) -c $(CFLAGS) $< -o $@
 
-$(OBJ_FOLDER)%.o: $(SERVER_DIR)%.c
+$(SERVER_OBJS): $(SERVER_SOURCES)
+	mkdir -p $(dir $@)
 	$(CC) -c $(CFLAGS) $< -o $@
 
-$(OBJ_FOLDER)%.o: $(COMMON_DIR)%.c
+$(CLIENT_OBJS): $(CLIENT_SOURCES)
+	mkdir -p $(dir $@)
 	$(CC) -c $(CFLAGS) $< -o $@
-
+	
 clean:
 	rm -rf $(OBJ_FOLDER)
 	make -C $(LIBFT_DIR) clean
