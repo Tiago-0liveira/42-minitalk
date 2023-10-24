@@ -6,7 +6,7 @@
 /*   By: tiagoliv <tiagoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 20:26:51 by tiagoliv          #+#    #+#             */
-/*   Updated: 2023/10/23 14:15:25 by tiagoliv         ###   ########.fr       */
+/*   Updated: 2023/10/24 15:41:22 by tiagoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,20 @@ void	sig_handler(int sig, siginfo_t *info, void *context)
 	if (vars->buffer_index == 8)
 	{
 		ch = get_char_from_bits_array(vars->bits_buffer);
-		if (!ch)
+		if (dyn_str_append_character(vars->msg, ch))
+			kill_process();
+		vars->buffer_index = 0;
+		ft_bzero(vars->bits_buffer, 8);
+		if (vars->msg->index == vars->size.size)
 		{
 			vars->is_initialized = 0;
 			ft_printf("message: %s\n Closed the client.\n Received %d \
 chars | %l bytes\n", vars->msg->str, (vars->bits_n - 8) / 8, vars->bits_n - 8);
-			kill(vars->c_pid, SIGUSR2);
+			kill(vars->c_pid, SIGUSR1);
 			free(vars->msg->str);
-			ft_bzero(vars->bits_buffer, 8);
-		}
-		else
-		{
-			if (dyn_str_append_character(vars->msg, ch))
-				kill_process();
-			vars->buffer_index = 0;
 		}
 	}
+	kill(vars->c_pid, SIGUSR2);
 }
 
 int	get_bit(int sig)
@@ -78,9 +76,12 @@ t_vars	*get_vars(void)
 		vars.bits_n = 0;
 		ft_bzero(vars.bits_buffer, 8);
 		vars.buffer_index = 0;
-		vars.msg = dyn_str_init();
-		if (!vars.msg)
-			exit(EXIT_FAILURE);
+		vars.msg = NULL;
+		vars.size.int_size = (size_t) sizeof(int) * 8;
+		ft_bzero(vars.size.buffer, vars.size.int_size);
+		vars.size.index = 0;
+		vars.size.size = 0;
+		vars.size.done = 0;
 	}
 	return (&vars);
 }

@@ -6,7 +6,7 @@
 #    By: tiagoliv <tiagoliv@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/28 20:21:53 by tiagoliv          #+#    #+#              #
-#    Updated: 2023/10/23 14:16:08 by tiagoliv         ###   ########.fr        #
+#    Updated: 2023/10/24 12:13:34 by tiagoliv         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,5 +72,7 @@ fclean: clean
 	make -C $(LIBFT_DIR) fclean
 
 re: fclean all
+
+bonus: all
 
 .PHONY: all

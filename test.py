@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import random, string, subprocess, sys, time
 
-INTERVAL = 0.6
+INTERVAL = 0.5
 DEFAULT_MIN_LENGTH = 10
 DEFAULT_MAX_LENGTH = 50
 message = "`~(*123!@#$%^&*(_+-=][}{';:.></|\\?) Ž (╯°□°)╯︵ ┻━┻"
